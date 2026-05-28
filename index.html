@@ -577,10 +577,6 @@
 
 <!-- WAITLIST -->
 <section class="waitlist-section" id="waitlist">
-  <div class="wl-counter-pill">
-    <span class="wl-count-num" id="wl-count">–</span>
-    <span class="wl-count-label">personas anotadas</span>
-  </div>
   <h2>Sé de los primeros.</h2>
   <p class="wl-sub">Anotate y te avisamos cuando la app esté disponible en iOS y Android.</p>
   <div class="wl-form" id="wl-form-wrap">
@@ -646,15 +642,6 @@
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dGxtYXRjd2ZsYmV4bXB4bXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczOTk4NjAsImV4cCI6MjA5Mjk3NTg2MH0.aRv-cXdQ3vYkI5hfWtbXcCYWpi8F8ZL_zzyc-290Z2k';
   const HEADERS = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
 
-  async function loadCount() {
-    try {
-      const r = await fetch(`${SB_URL}/rest/v1/rpc/get_waitlist_count`, {
-        method: 'POST', headers: HEADERS, body: '{}'
-      });
-      if (r.ok) document.getElementById('wl-count').textContent = await r.json();
-    } catch(e) {}
-  }
-
   async function joinWaitlist() {
     const name  = document.getElementById('wl-name').value.trim();
     const email = document.getElementById('wl-email').value.trim();
@@ -681,8 +668,6 @@
       btn.disabled = false; btn.textContent = 'Anotarme para la beta →';
     }
   }
-
-  loadCount();
 </script>
 </body>
 </html>
