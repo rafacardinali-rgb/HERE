@@ -345,17 +345,19 @@
     .logo-slide-section {
       position: relative; overflow: hidden;
       background: var(--bg);
-      height: clamp(260px, 45vw, 560px);
+      width: 100%; margin: 0; padding: 0;
+      aspect-ratio: 16/9;
     }
     .logo-slide {
       position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 1.2s ease-in-out;
+      opacity: 0; transition: opacity 1.4s ease-in-out;
     }
     .logo-slide.active { opacity: 1; }
     .logo-slide img {
-      max-width: 88%; max-height: 88%;
-      object-fit: contain;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
       user-select: none; pointer-events: none;
     }
 
@@ -674,7 +676,7 @@
       slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
-    }, 7000);
+    }, 30000);
   })();
 </script>
 
