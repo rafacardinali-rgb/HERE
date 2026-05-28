@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HERE — Personas reales. Acá. Ahora.</title>
-  <meta name="description" content="HERE te muestra quién está en el mismo lugar que vos en este momento. Activá presencia, deslizá, hacé match antes de que desaparezca." />
+  <meta name="description" content="HERE te muestra quién está en el mismo lugar que vos en este momento. Descargala en iOS, Android o usala desde el navegador." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,8 +19,6 @@
       --accent:      #FF5864;
       --accent-soft: #3A1E22;
       --like:        #3DDC8B;
-      --like-soft:   #143A26;
-      --warn:        #FBBF24;
     }
 
     html { scroll-behavior: smooth; }
@@ -30,463 +28,304 @@
       background: var(--bg);
       color: var(--ink);
       line-height: 1.6;
+      min-height: 100vh;
     }
 
     /* ─── NAV ─── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(11,11,15,0.9);
+      background: rgba(11,11,15,0.92);
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px; height: 64px;
+      padding: 0 24px; height: 60px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo {
-      width: 38px; height: 38px;
-      background: var(--accent); border-radius: 11px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      width: 36px; height: 36px;
+      background: var(--accent); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -1px;
     }
-    .nav-name { font-size: 22px; font-weight: 900; color: var(--ink); letter-spacing: -0.4px; }
-    .nav-cta {
-      background: var(--accent); color: #fff; border: none;
-      border-radius: 12px; padding: 10px 22px;
-      font-size: 15px; font-weight: 700; cursor: pointer;
-      text-decoration: none; transition: opacity .15s;
+    .nav-name { font-size: 21px; font-weight: 900; color: var(--ink); letter-spacing: -0.4px; }
+    .nav-badge {
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.35);
+      color: var(--accent);
+      border-radius: 999px; padding: 4px 12px;
+      font-size: 11px; font-weight: 800; letter-spacing: .5px;
     }
-    .nav-cta:hover { opacity: .88; }
 
     /* ─── HERO ─── */
     .hero {
-      padding: 96px 24px 128px; text-align: center;
+      padding: 80px 24px 72px;
+      text-align: center;
       position: relative; overflow: hidden;
     }
     .hero::before {
       content: "";
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 65% 55% at 50% 8%, rgba(255,88,100,.20) 0%, transparent 70%),
-        radial-gradient(ellipse 35% 35% at 18% 88%, rgba(61,220,139,.07) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,88,100,.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 15% 100%, rgba(61,220,139,.07) 0%, transparent 60%);
       pointer-events: none;
     }
-    /* radar rings */
     .ring {
-      position: absolute; left: 50%; top: 48%;
+      position: absolute; left: 50%; top: 42%;
       transform: translate(-50%,-50%);
       border-radius: 50%;
-      border: 1px solid rgba(255,88,100,.16);
-      animation: rpulse 3.2s ease-out infinite;
+      border: 1px solid rgba(255,88,100,.14);
+      animation: rpulse 3.4s ease-out infinite;
       pointer-events: none;
     }
-    .ring:nth-child(1){ width:280px; height:280px; animation-delay:0s; }
-    .ring:nth-child(2){ width:500px; height:500px; animation-delay:.9s; }
-    .ring:nth-child(3){ width:720px; height:720px; animation-delay:1.8s; }
+    .ring:nth-child(1){ width:260px; height:260px; animation-delay:0s; }
+    .ring:nth-child(2){ width:480px; height:480px; animation-delay:1s; }
+    .ring:nth-child(3){ width:700px; height:700px; animation-delay:2s; }
     @keyframes rpulse {
-      0%   { opacity:.65; transform:translate(-50%,-50%) scale(.86); }
-      100% { opacity:0;   transform:translate(-50%,-50%) scale(1.04); }
+      0%   { opacity:.6; transform:translate(-50%,-50%) scale(.85); }
+      100% { opacity:0;  transform:translate(-50%,-50%) scale(1.05); }
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 9px;
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent-soft);
       border: 1px solid rgba(255,88,100,.3);
       border-radius: 100px; padding: 6px 16px;
-      font-size: 13px; font-weight: 700; color: var(--accent);
-      margin-bottom: 28px; position: relative;
+      font-size: 12px; font-weight: 800; color: var(--accent);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 26px; position: relative;
     }
     .dot {
-      width: 8px; height: 8px; border-radius: 50%;
+      width: 7px; height: 7px; border-radius: 50%;
       background: var(--accent);
-      animation: blink 1.3s ease-in-out infinite;
+      animation: blink 1.4s ease-in-out infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.2;} }
 
     .hero h1 {
-      font-size: clamp(38px,6.5vw,74px); font-weight: 900;
-      letter-spacing: -2px; line-height: 1.02;
-      color: var(--ink); margin-bottom: 22px; position: relative;
+      font-size: clamp(40px, 7vw, 78px);
+      font-weight: 900; letter-spacing: -2.5px; line-height: 1.0;
+      color: var(--ink); margin-bottom: 20px; position: relative;
     }
     .hero h1 em { font-style: normal; color: var(--accent); }
-    .hero p {
-      font-size: clamp(16px,2vw,20px); color: var(--ink-soft);
-      max-width: 500px; margin: 0 auto 40px;
-      line-height: 1.72; position: relative;
+    .hero .hero-sub {
+      font-size: clamp(16px, 2vw, 20px); color: var(--ink-soft);
+      max-width: 480px; margin: 0 auto 48px;
+      line-height: 1.7; position: relative;
     }
-    .hero-btns {
-      display: flex; gap: 14px; justify-content: center;
-      flex-wrap: wrap; position: relative;
+
+    /* ─── DOWNLOAD BUTTONS ─── */
+    .download-group {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      position: relative; margin-bottom: 20px;
     }
-    .btn-main {
-      background: var(--accent); color: #fff; border: none;
-      border-radius: 14px; padding: 16px 32px;
-      font-size: 16px; font-weight: 800; cursor: pointer;
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
+    .download-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .dl-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 24px; border-radius: 16px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      text-decoration: none; border: none;
       transition: opacity .15s, transform .15s;
+      min-width: 200px;
     }
-    .btn-main:hover { opacity:.9; transform:translateY(-1px); }
-    .btn-ghost {
-      background: var(--card); color: var(--ink);
+    .dl-btn:hover { opacity: .88; transform: translateY(-2px); }
+    .dl-btn-icon { font-size: 22px; flex-shrink: 0; }
+    .dl-btn-text { text-align: left; }
+    .dl-btn-label { font-size: 11px; opacity: .7; font-weight: 600; display: block; }
+    .dl-btn-name  { font-size: 16px; font-weight: 800; display: block; line-height: 1.1; }
+
+    .dl-ios {
+      background: var(--ink); color: var(--bg);
+    }
+    .dl-android {
+      background: var(--like); color: #0a1a0f;
+    }
+    .dl-web {
+      background: var(--accent); color: #fff;
+    }
+    .dl-soon {
+      background: var(--card); color: var(--ink-muted);
       border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px 32px;
-      font-size: 16px; font-weight: 700; cursor: pointer;
-      text-decoration: none; transition: background .15s;
+      cursor: not-allowed; pointer-events: none;
+      opacity: .6;
     }
-    .btn-ghost:hover { background: var(--bg-el); }
+    .dl-soon:hover { transform: none; opacity: .6; }
 
-    /* ─── STATS ─── */
-    .stats {
+    .beta-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(251,191,36,.08);
+      border: 1px solid rgba(251,191,36,.25);
+      border-radius: 12px; padding: 10px 18px;
+      font-size: 13px; font-weight: 600; color: #FBBF24;
+      margin-top: 8px;
+    }
+
+    /* ─── PHONE MOCKUP ─── */
+    .phone-wrap {
+      display: flex; justify-content: center;
+      margin: 56px auto 0; position: relative;
+    }
+    .phone {
+      width: 270px;
       background: var(--bg-el);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 32px 24px;
+      border: 2px solid var(--border);
+      border-radius: 44px;
+      padding: 14px;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,.6),
+        0 0 0 1px rgba(255,255,255,.04),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      position: relative;
     }
-    .stats-inner {
-      max-width: 940px; margin: 0 auto;
-      display: flex; flex-wrap: wrap; justify-content: center;
+    .phone-notch {
+      width: 90px; height: 28px;
+      background: var(--bg);
+      border-radius: 0 0 18px 18px;
+      margin: 0 auto 10px;
+      position: relative;
     }
-    .stat {
-      flex: 1; min-width: 140px; text-align: center;
-      padding: 16px; border-right: 1px solid var(--border);
+    .phone-notch::after {
+      content: "";
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--border);
     }
-    .stat:last-child { border-right: none; }
-    .stat-v { font-size: 30px; font-weight: 900; color: var(--accent); letter-spacing:-1px; line-height:1; }
-    .stat-l { font-size: 13px; color: var(--ink-muted); margin-top: 6px; }
-
-    /* ─── GENERIC SECTION ─── */
-    section { padding: 88px 24px; }
-    .wrap { max-width: 1080px; margin: 0 auto; }
-    .label-sm {
-      font-size: 12px; font-weight: 800;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 12px;
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 9/18;
+      position: relative;
     }
-    .title-lg {
-      font-size: clamp(28px,4vw,46px); font-weight: 900;
-      letter-spacing: -1px; line-height: 1.1;
-      color: var(--ink); margin-bottom: 16px;
+    .phone-status {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 16px 4px;
+      font-size: 11px; font-weight: 700; color: var(--ink-soft);
     }
-    .sub-lg { font-size: 17px; color: var(--ink-muted); max-width: 500px; line-height: 1.65; }
-
-    /* ─── HOW IT WORKS ─── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-      gap: 16px; margin-top: 52px;
-    }
-    .step {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 24px; padding: 28px;
-      transition: border-color .2s;
-    }
-    .step:hover { border-color: rgba(255,88,100,.35); }
-    .step-num {
-      width: 42px; height: 42px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(255,88,100,.3);
-      color: var(--accent); border-radius: 13px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 19px; font-weight: 900; margin-bottom: 18px;
-    }
-    .step h3 { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
-    .step p  { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
-
-    /* ─── MOCK CARD ─── */
-    .mock-section { background: var(--bg-el); }
-    .mock-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px; align-items: center; margin-top: 52px;
-    }
-    @media(max-width:700px){ .mock-layout{ grid-template-columns:1fr; } }
-
-    .mock-card {
-      background: #1a1016; border-radius: 28px; overflow: hidden;
+    .phone-feed-card {
+      margin: 0 10px;
+      border-radius: 22px; overflow: hidden;
+      background: linear-gradient(160deg, #2a1220 0%, #1a0f18 60%, #0d0d14 100%);
+      position: relative;
+      aspect-ratio: 3/4.2;
       border: 1px solid rgba(255,88,100,.2);
-      box-shadow: 0 24px 60px rgba(0,0,0,.6);
-      max-width: 300px; margin: 0 auto;
     }
-    .mock-photo {
-      width: 100%; aspect-ratio: 2/3;
-      background: linear-gradient(160deg,#2a1520 0%,#1a1020 100%);
-      position: relative; display: flex; flex-direction: column; justify-content: flex-end;
-    }
-    .mock-photo-inner {
+    .phone-avatar {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 80px; opacity: .55;
+      font-size: 72px; opacity: .5;
     }
-    .mock-live-pill {
-      position: absolute; top: 14px; left: 14px;
-      display: flex; align-items: center; gap: 6px;
-      background: var(--accent); border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 10px; font-weight: 900; color: #fff; letter-spacing: 1.2px;
-    }
-    .mock-progress {
-      position: absolute; top: 12px; right: 14px;
-      font-size: 11px; font-weight: 700; color: rgba(255,255,255,.8);
-    }
-    .mock-info {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 18px 18px 20px;
-      background: linear-gradient(transparent, rgba(0,0,0,.88));
-    }
-    .mock-name { font-size: 28px; font-weight: 900; color: #fff; letter-spacing:-.7px; }
-    .mock-place {
+    .phone-live-pill {
+      position: absolute; top: 10px; left: 10px;
       display: flex; align-items: center; gap: 5px;
-      font-size: 13px; font-weight: 600; color: rgba(255,255,255,.8); margin-top: 4px;
+      background: var(--accent); border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 9px; font-weight: 900; color: #fff; letter-spacing: 1px;
     }
-    .mock-bio { font-size: 13px; color: rgba(255,255,255,.75); margin-top: 8px; line-height: 1.5; }
-    .mock-actions {
+    .phone-timer {
+      position: absolute; top: 10px; right: 10px;
+      font-size: 10px; font-weight: 700; color: rgba(255,255,255,.75);
+    }
+    .phone-card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 14px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,.9));
+    }
+    .phone-name { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -.5px; }
+    .phone-place { font-size: 11px; color: rgba(255,255,255,.75); margin-top: 2px; }
+    .phone-actions {
       display: flex; justify-content: center; align-items: center;
-      gap: 18px; padding: 16px;
+      gap: 14px; padding: 12px 10px;
     }
-    .mock-btn {
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; font-size: 22px; cursor: default;
-    }
-    .mock-btn-pass { width:52px; height:52px; background:var(--card); border:1px solid var(--border); }
-    .mock-btn-like { width:64px; height:64px; background:var(--accent);
-      box-shadow:0 8px 24px rgba(255,88,100,.45); }
-    .mock-btn-refresh{ width:44px; height:44px; background:var(--card); border:1px solid var(--border); }
+    .pa { display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; flex-shrink: 0; font-size: 18px; }
+    .pa-pass   { width:46px; height:46px; background:var(--card); border:1px solid var(--border); }
+    .pa-like   { width:58px; height:58px; background:var(--accent);
+      box-shadow:0 6px 20px rgba(255,88,100,.5); }
+    .pa-ref    { width:38px; height:38px; background:var(--card); border:1px solid var(--border); }
 
-    .mock-text { display: flex; flex-direction: column; gap: 22px; }
-    .mock-text h2 { font-size: 32px; font-weight: 900; letter-spacing:-.8px; color: var(--ink); }
-    .mock-text p { font-size: 16px; color: var(--ink-muted); line-height: 1.7; }
-    .feat-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .feat-list li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 14px; font-weight: 600; color: var(--ink-soft);
+    /* ─── FEATURES ─── */
+    .features { padding: 80px 24px; }
+    .section-wrap { max-width: 960px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+      text-align: center;
     }
-    .feat-list li::before {
-      content:"✓";
-      width:22px; height:22px; flex-shrink:0;
-      background:var(--like-soft); color:var(--like);
-      border-radius:6px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:12px; font-weight:900;
+    .section-title {
+      font-size: clamp(26px, 4vw, 44px); font-weight: 900;
+      letter-spacing: -1px; color: var(--ink); text-align: center;
+      margin-bottom: 12px;
     }
-
-    /* ─── PRESENCE SYSTEM ─── */
-    .presence-section { background: var(--bg); }
-    .presence-grid {
+    .section-sub {
+      font-size: 16px; color: var(--ink-muted);
+      text-align: center; max-width: 460px;
+      margin: 0 auto 52px; line-height: 1.65;
+    }
+    .feat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-      gap: 16px; margin-top: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
     }
-    .pcard {
+    .feat-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 22px; padding: 26px;
       transition: border-color .2s;
     }
-    .pcard:hover { border-color: rgba(255,88,100,.3); }
-    .pcard-icon { font-size: 32px; margin-bottom: 14px; }
-    .pcard h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
-    .pcard p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
-    .pcard-tag {
-      display: inline-block; margin-top: 12px;
-      background: var(--accent-soft); color: var(--accent);
-      border-radius: 999px; padding: 4px 12px;
-      font-size: 11px; font-weight: 800; letter-spacing: .5px;
-    }
+    .feat-card:hover { border-color: rgba(255,88,100,.3); }
+    .feat-icon { font-size: 30px; margin-bottom: 14px; }
+    .feat-card h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .feat-card p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
 
-    /* ─── MATCH SECTION ─── */
-    .match-section { background: var(--bg-el); }
-    .match-layout {
+    /* ─── STEPS ─── */
+    .steps-section { background: var(--bg-el); padding: 80px 24px; }
+    .steps-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px; margin-top: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0; margin-top: 48px;
     }
-    @media(max-width:640px){ .match-layout{ grid-template-columns:1fr; } }
-
-    .match-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 26px; padding: 32px;
-      display: flex; flex-direction: column; gap: 18px;
+    .step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 28px 20px;
+      position: relative;
     }
-    .match-icon {
-      width: 54px; height: 54px; border-radius: 16px;
-      display: flex; align-items: center; justify-content: center; font-size: 26px;
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute; right: -4px; top: 38px;
+      color: var(--border); font-size: 22px;
     }
-    .match-card h2 { font-size: 24px; font-weight: 900; letter-spacing:-.5px; color: var(--ink); }
-    .match-card p  { font-size: 15px; color: var(--ink-muted); line-height: 1.65; }
-
-    .btn-card {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 22px; border-radius: 12px;
-      font-size: 14px; font-weight: 800;
-      text-decoration: none; border: none; cursor: pointer;
-      align-self: flex-start; transition: opacity .15s;
-    }
-    .btn-card:hover { opacity:.85; }
-    .btn-red   { background: var(--accent); color: #fff; }
-    .btn-green { background: var(--like);   color: #0B0B0F; }
-
-    .urgency-banner {
-      background: linear-gradient(90deg, var(--accent-soft), rgba(58,30,34,.5));
-      border: 1px solid rgba(255,88,100,.25);
-      border-radius: 16px; padding: 18px 22px;
-      display: flex; align-items: center; gap: 14px;
-      margin-top: 8px;
-    }
-    .urgency-icon { font-size: 26px; }
-    .urgency-text { font-size: 14px; font-weight: 700; color: var(--ink-soft); line-height: 1.5; }
-    .urgency-text strong { color: var(--accent); }
-
-    /* ─── PROFILE SECTION ─── */
-    .profile-section { background: var(--bg); }
-    .profile-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px; align-items: center; margin-top: 52px;
-    }
-    @media(max-width:700px){ .profile-layout{ grid-template-columns:1fr; } }
-
-    .vis-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .vis-row {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--bg-el); border: 1px solid var(--border);
-      border-radius: 14px; padding: 12px 16px;
-    }
-    .vis-row .vis-ic {
-      width: 32px; height: 32px; border-radius: 10px;
-      background: var(--bg); border: 1px solid var(--border);
+    @media(max-width:640px){ .step:not(:last-child)::after { display: none; } }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.3);
+      color: var(--accent); border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px; flex-shrink: 0;
+      font-size: 22px; font-weight: 900; margin-bottom: 16px;
     }
-    .vis-row .vis-label { flex: 1; font-size: 14px; font-weight: 700; color: var(--ink-soft); }
-    .toggle {
-      width: 44px; height: 26px; border-radius: 13px;
-      position: relative; flex-shrink: 0;
-    }
-    .toggle.on  { background: var(--accent); }
-    .toggle.off { background: var(--border); }
-    .toggle::after {
-      content:""; position:absolute; top:3px;
-      width:20px; height:20px; border-radius:50%; background:#fff;
-      transition: left .15s;
-    }
-    .toggle.on::after  { left: 21px; }
-    .toggle.off::after { left: 3px; }
-
-    .profile-mock {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 28px; padding: 24px;
-      display: flex; flex-direction: column; align-items: center; gap: 16px;
-    }
-    .avatar-ring {
-      width: 96px; height: 96px; border-radius: 50%;
-      border: 3px solid var(--accent);
-      background: var(--bg-el);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 48px;
-    }
-    .profile-mock-name { font-size: 22px; font-weight: 900; color: var(--ink); }
-    .profile-chips {
-      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-    }
-    .chip {
-      padding: 5px 14px; border-radius: 999px;
-      background: var(--bg-el); border: 1px solid var(--border);
-      font-size: 12px; font-weight: 700; color: var(--ink-soft);
-    }
-    .chip.live { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
-    .tip-card {
-      background: var(--accent-soft); border-radius: 14px; padding: 14px 16px;
-      display: flex; align-items: center; gap: 10px; width: 100%;
-    }
-    .tip-card span { font-size: 13px; font-weight: 700; color: #FF7A85; line-height: 1.5; }
-
-    /* ─── LIKES / PREMIUM ─── */
-    .premium-section { background: var(--bg-el); }
-    .premium-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px; align-items: center; margin-top: 52px;
-    }
-    @media(max-width:680px){ .premium-layout{ grid-template-columns:1fr; } }
-
-    .likes-mock {
-      background: var(--card); border-radius: 24px; padding: 20px;
-      border: 1px solid var(--border);
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
-    .like-tile {
-      aspect-ratio: 3/4; border-radius: 16px;
-      background: var(--bg-el); border: 1px solid var(--border);
-      position: relative; overflow: hidden;
-      display: flex; align-items: center; justify-content: center; font-size: 42px;
-    }
-    .blur-overlay {
-      position: absolute; inset: 0;
-      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      background: rgba(11,11,15,.6);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .lock-icon { font-size: 28px; }
-    .like-tile.unlocked .blur-overlay { display: none; }
-    .likes-count-badge {
-      position: absolute; top: 10px; right: 10px;
-      background: var(--accent); color: #fff;
-      border-radius: 999px; padding: 3px 9px;
-      font-size: 11px; font-weight: 900;
-    }
-
-    .premium-text { display: flex; flex-direction: column; gap: 20px; }
-    .premium-text h2 { font-size: 32px; font-weight: 900; letter-spacing:-.8px; color: var(--ink); }
-    .premium-text p { font-size: 16px; color: var(--ink-muted); line-height: 1.7; }
-
-    /* ─── TESTIMONIALS ─── */
-    .testi-section { background: var(--bg); }
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-      gap: 16px; margin-top: 48px;
-    }
-    .tcard {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 24px;
-    }
-    .stars { color: var(--warn); font-size: 16px; margin-bottom: 14px; letter-spacing: 2px; }
-    .ttext {
-      font-size: 15px; color: var(--ink-soft);
-      line-height: 1.65; margin-bottom: 18px; font-style: italic;
-    }
-    .tauthor { display: flex; align-items: center; gap: 12px; }
-    .tav {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--accent); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 16px; flex-shrink: 0;
-    }
-    .tname { font-weight: 700; font-size: 14px; color: var(--ink); }
-    .ttag  { font-size: 12px; color: var(--ink-muted); }
+    .step h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .step p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
 
     /* ─── CTA FINAL ─── */
     .cta-section {
-      border-top: 1px solid var(--border);
-      text-align: center; padding: 100px 24px;
+      padding: 90px 24px;
+      text-align: center;
       position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
     }
     .cta-section::before {
-      content:""; position:absolute; inset:0;
-      background: radial-gradient(ellipse 55% 50% at 50% 50%, rgba(255,88,100,.13) 0%, transparent 70%);
-      pointer-events:none;
-    }
-    .live-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(255,88,100,.3);
-      border-radius: 999px; padding: 6px 16px;
-      font-size: 12px; font-weight: 800; color: var(--accent);
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 22px; position: relative;
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(255,88,100,.12) 0%, transparent 70%);
+      pointer-events: none;
     }
     .cta-section h2 {
-      font-size: clamp(30px,5vw,58px); font-weight: 900;
-      color: var(--ink); letter-spacing: -1.2px;
-      margin-bottom: 16px; position: relative;
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 900; color: var(--ink);
+      letter-spacing: -1.2px; margin-bottom: 14px; position: relative;
     }
     .cta-section p {
       font-size: 17px; color: var(--ink-muted);
@@ -498,13 +337,16 @@
       background: var(--bg-el);
       border-top: 1px solid var(--border);
       color: var(--ink-muted); text-align: center;
-      padding: 32px 24px; font-size: 13px;
+      padding: 28px 24px; font-size: 13px;
     }
     footer strong { color: var(--ink); }
+    .footer-links { display: flex; gap: 20px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    .footer-links a { color: var(--ink-muted); text-decoration: none; font-size: 12px; }
+    .footer-links a:hover { color: var(--ink); }
 
     @media(max-width:500px){
-      section { padding: 64px 20px; }
-      .hero { padding: 72px 20px 88px; }
+      .hero { padding: 60px 20px 56px; }
+      .dl-btn { min-width: 160px; }
     }
   </style>
 </head>
@@ -513,10 +355,10 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-brand">
-    <div class="nav-logo">📍</div>
+    <div class="nav-logo">H</div>
     <span class="nav-name">HERE</span>
   </a>
-  <a href="#como-funciona" class="nav-cta">Activar presencia</a>
+  <span class="nav-badge">BETA</span>
 </nav>
 
 <!-- HERO -->
@@ -525,331 +367,143 @@
   <div class="ring"></div>
   <div class="ring"></div>
 
-  <div class="hero-badge">
+  <div class="live-badge">
     <div class="dot"></div>
-    EN VIVO — personas cerca ahora mismo
+    PERSONAS CERCA AHORA MISMO
   </div>
 
   <h1>Personas reales.<br><em>Acá. Ahora.</em></h1>
-  <p>Cuando te vas, nadie sabe que estuviste.<br>Pero si hay química, el chat sigue siendo tuyo.</p>
-  <div class="hero-btns">
-    <a href="#como-funciona" class="btn-main">📍 Activar presencia</a>
-    <a href="#perfil" class="btn-ghost">¿Cómo funciona?</a>
+
+  <p class="hero-sub">
+    HERE te muestra quién está en el mismo lugar que vos en este momento.
+    Activá presencia, deslizá, hacé match antes de que desaparezca.
+  </p>
+
+  <!-- DOWNLOAD BUTTONS -->
+  <div class="download-group">
+    <div class="download-row">
+      <a href="#" class="dl-btn dl-ios dl-soon">
+        <span class="dl-btn-icon"></span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">App Store</span>
+        </span>
+      </a>
+      <a href="#" class="dl-btn dl-android dl-soon">
+        <span class="dl-btn-icon">🤖</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">Google Play</span>
+        </span>
+      </a>
+    </div>
+    <div class="download-row">
+      <a href="app.html" class="dl-btn dl-web">
+        <span class="dl-btn-icon">🌐</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Probala ahora en</span>
+          <span class="dl-btn-name">Versión Web</span>
+        </span>
+      </a>
+    </div>
+    <div class="beta-note">
+      ⚠️ App en fase de pruebas — todavía no disponible en tiendas oficiales
+    </div>
+  </div>
+
+  <!-- PHONE MOCKUP -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-status">
+          <span>HERE</span>
+          <span>📍 500 m</span>
+        </div>
+        <div class="phone-feed-card">
+          <div class="phone-avatar">🧑</div>
+          <div class="phone-live-pill">
+            <div class="dot" style="width:5px;height:5px;"></div>
+            EN VIVO
+          </div>
+          <div class="phone-timer">28m restantes</div>
+          <div class="phone-card-info">
+            <div class="phone-name">Valentina, 26</div>
+            <div class="phone-place">📍 Café del Ángel · 120 m</div>
+          </div>
+        </div>
+        <div class="phone-actions">
+          <div class="pa pa-pass">✕</div>
+          <div class="pa pa-like">❤️</div>
+          <div class="pa pa-ref">↺</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stats-inner">
-    <div class="stat">
-      <div class="stat-v">500 m</div>
-      <div class="stat-l">radio de búsqueda</div>
-    </div>
-    <div class="stat">
-      <div class="stat-v">EN VIVO</div>
-      <div class="stat-l">solo personas activas ahora</div>
-    </div>
-    <div class="stat">
-      <div class="stat-v">24 h</div>
-      <div class="stat-l">y el pass vence — podés volver a aparecer</div>
-    </div>
-    <div class="stat">
-      <div class="stat-v">0%</div>
-      <div class="stat-l">visible sin activar presencia</div>
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-wrap">
+    <div class="section-label">Por qué HERE</div>
+    <h2 class="section-title">La app que conecta el presente</h2>
+    <p class="section-sub">No hay fotos de hace 5 años ni perfiles de otras ciudades. Si está en el radar, está en el lugar.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">👻</div>
+        <h3>Invisible por default</h3>
+        <p>Sin activar presencia no aparecés en ningún feed. Vos decidís cuándo existir.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⏱️</div>
+        <h3>Presencia efímera</h3>
+        <p>1 h, 3 h, hasta medianoche. Cuando termina el tiempo, desaparecés automáticamente.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">❤️</div>
+        <h3>Match mutuo</h3>
+        <p>Solo cuando los dos se dan like se forma el match. Sin like unilateral en el chat.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">💬</div>
+        <h3>El chat persiste</h3>
+        <p>Aunque la presencia expire, el chat sigue siendo tuyo. La conexión fue real.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📸</div>
+        <h3>Fotos y audios en vivo</h3>
+        <p>El chat solo permite fotos tomadas en el momento y audios en tiempo real. Sin contenido del álbum.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🛡️</div>
+        <h3>Bloqueo instantáneo</h3>
+        <p>Un tap y esa persona desaparece para siempre de todos lados. Sin segunda chances.</p>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CÓMO FUNCIONA -->
-<section id="como-funciona">
-  <div class="wrap">
-    <div class="label-sm">¿Cómo funciona?</div>
-    <h2 class="title-lg">Tres pasos y ya estás visible</h2>
-    <p class="sub-lg">Sin activar presencia, sos completamente invisible. Solo aparecés cuando querés.</p>
-    <div class="steps">
+<section class="steps-section">
+  <div class="section-wrap">
+    <div class="section-label">¿Cómo funciona?</div>
+    <h2 class="section-title">Tres pasos y ya estás visible</h2>
+    <p class="section-sub">Es rápido. Es real. Y cuando termina, es como si nunca hubieras estado.</p>
+    <div class="steps-row">
       <div class="step">
         <div class="step-num">1</div>
-        <h3>Elegí dónde estás</h3>
-        <p>HERE detecta tu GPS y te muestra los lugares reales cerca: el café, el bar, la plaza. Seleccionás el lugar y confirmás que estás ahí.</p>
+        <h3>Activá tu presencia</h3>
+        <p>Elegís el lugar donde estás y cuánto tiempo querés ser visible. El GPS lo detecta solo.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h3>Activá tu presencia</h3>
-        <p>Elegís cuánto tiempo querés estar visible: 1 hora, 3 horas o hasta medianoche. Cuando termina, desaparecés automáticamente.</p>
+        <h3>Deslizá personas cercanas</h3>
+        <p>Ves quién está en ese lugar ahora mismo. Derecha para like, izquierda para pasar.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>Deslizá y conectá</h3>
-        <p>Ves las personas que están ahí ahora mismo. Si se gustan mutuamente, hacen match y pueden chatear antes de que la presencia expire.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MOCK CARD / FEED -->
-<section class="mock-section">
-  <div class="wrap">
-    <div class="mock-layout">
-
-      <div class="mock-card">
-        <div class="mock-photo">
-          <div class="mock-photo-inner">🧑</div>
-          <div class="mock-live-pill">
-            <div class="dot" style="width:6px;height:6px;animation-delay:.3s;"></div>
-            EN VIVO
-          </div>
-          <div class="mock-progress">28m restantes</div>
-          <div class="mock-info">
-            <div class="mock-name">Valentina, 26</div>
-            <div class="mock-place">📍 Café del Ángel · a 120 m</div>
-            <div class="mock-bio">Jazz, caminatas tarde, café negro sin azúcar.</div>
-          </div>
-        </div>
-        <div class="mock-actions">
-          <div class="mock-btn mock-btn-pass">✕</div>
-          <div class="mock-btn mock-btn-like">❤️</div>
-          <div class="mock-btn mock-btn-refresh">↺</div>
-        </div>
-      </div>
-
-      <div class="mock-text">
-        <h2>El feed que solo muestra el presente</h2>
-        <p>Cada tarjeta es una persona que está en ese lugar <strong style="color:var(--ink);">en este momento</strong>. Ves el nombre del lugar, la distancia exacta y el tiempo que le queda antes de desaparecer.</p>
-        <ul class="feat-list">
-          <li>Cartas apiladas con swipe — like a la derecha, pass a la izquierda</li>
-          <li>Badge "EN VIVO" con cuenta regresiva en tiempo real</li>
-          <li>Distancia en metros, no en kilómetros</li>
-          <li>Pass vence en 24h — la persona puede volver a aparecer al día siguiente</li>
-          <li>Actualización automática cada 30 segundos vía Supabase Realtime</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- SISTEMA DE PRESENCIA -->
-<section class="presence-section" id="presencia">
-  <div class="wrap">
-    <div class="label-sm">Sistema de presencia</div>
-    <h2 class="title-lg">Vos controlás cuándo existir</h2>
-    <p class="sub-lg">La presencia es efímera por diseño. Nadie te ve si no querés que te vean.</p>
-    <div class="presence-grid">
-      <div class="pcard">
-        <div class="pcard-icon">👻</div>
-        <h3>Invisible por default</h3>
-        <p>Sin activar presencia no aparecés en ningún feed. Podés usar la app sin que nadie sepa que estás.</p>
-        <span class="pcard-tag">PRIVADO</span>
-      </div>
-      <div class="pcard">
-        <div class="pcard-icon">⏱️</div>
-        <h3>Tiempo elegido por vos</h3>
-        <p>1 hora. 3 horas. O hasta medianoche. Cuando se acaba el tiempo, desaparecés solo. Sin hacer nada.</p>
-        <span class="pcard-tag">EFÍMERO</span>
-      </div>
-      <div class="pcard">
-        <div class="pcard-icon">📍</div>
-        <h3>El lugar, no la posición</h3>
-        <p>Los demás ven el nombre del lugar ("Café del Ángel") y la distancia aproximada. Tu ubicación exacta nunca se comparte.</p>
-        <span class="pcard-tag">SEGURO</span>
-      </div>
-      <div class="pcard">
-        <div class="pcard-icon">🛡️</div>
-        <h3>Bloqueo instantáneo</h3>
-        <p>Un tap y esa persona desaparece de todos lados para siempre. Nunca más aparece en tu feed, nunca más te ve.</p>
-        <span class="pcard-tag">PERMANENTE</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MATCH + URGENCIA -->
-<section class="match-section" id="match">
-  <div class="wrap">
-    <div class="label-sm">Matches</div>
-    <h2 class="title-lg">Cuando hay química, el tiempo corre</h2>
-    <p class="sub-lg">Si se gustan mutuamente, el match es instantáneo. Pero la presencia se desvanece — mejor escribirle ya.</p>
-    <div class="match-layout">
-
-      <div class="match-card">
-        <div class="match-icon" style="background:var(--accent-soft);">❤️</div>
-        <h2>Match instantáneo</h2>
-        <p>Cuando dos personas se dan like mutuamente, la pantalla de match aparece con vibración y animación. El chat se abre ahí mismo.</p>
-        <ul class="feat-list">
-          <li>Match con feedback háptico en el celular</li>
-          <li>Chat privado dentro de la app</li>
-          <li>Historial de conversaciones siempre disponible</li>
-        </ul>
-        <a href="#" class="btn-card btn-red">Ver mis chats →</a>
-      </div>
-
-      <div class="match-card">
-        <div class="match-icon" style="background:var(--like-soft);">💬</div>
-        <h2>El chat que persiste</h2>
-        <p>Aunque la presencia expire, el chat sigue siendo tuyo. La conexión fue real — la conversación queda.</p>
-        <ul class="feat-list">
-          <li>El match no desaparece cuando ella/él se va</li>
-          <li>Podés escribir aunque ya no estén en el mismo lugar</li>
-          <li>Notificaciones push cuando llega un mensaje nuevo</li>
-        </ul>
-        <div class="urgency-banner">
-          <div class="urgency-icon">⚡</div>
-          <div class="urgency-text">
-            <strong>Apurate — la presencia se desvanece.</strong><br>
-            Eso dice la pantalla de match. La urgencia es real.
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PERFIL -->
-<section class="profile-section" id="perfil">
-  <div class="wrap">
-    <div class="label-sm">Tu perfil</div>
-    <h2 class="title-lg">Mostrás lo que querés mostrar</h2>
-    <p class="sub-lg">Cada dato del perfil tiene un toggle. Podés ser tan visible o tan misterioso como quieras.</p>
-    <div class="profile-layout">
-
-      <div>
-        <ul class="vis-list">
-          <li class="vis-row">
-            <div class="vis-ic">📸</div>
-            <span class="vis-label">Fotos (hasta 6)</span>
-            <div class="toggle on"></div>
-          </li>
-          <li class="vis-row">
-            <div class="vis-ic">👤</div>
-            <span class="vis-label">Nombre</span>
-            <div class="toggle on"></div>
-          </li>
-          <li class="vis-row">
-            <div class="vis-ic">🎂</div>
-            <span class="vis-label">Edad</span>
-            <div class="toggle on"></div>
-          </li>
-          <li class="vis-row">
-            <div class="vis-ic">♂️</div>
-            <span class="vis-label">Género</span>
-            <div class="toggle off"></div>
-          </li>
-          <li class="vis-row">
-            <div class="vis-ic">📏</div>
-            <span class="vis-label">Altura</span>
-            <div class="toggle off"></div>
-          </li>
-          <li class="vis-row">
-            <div class="vis-ic">✏️</div>
-            <span class="vis-label">Bio</span>
-            <div class="toggle on"></div>
-          </li>
-        </ul>
-        <p style="color:var(--ink-muted);font-size:13px;margin-top:16px;">Los cambios aplican en tiempo real. Podés cambiarlos cuando quieras, incluso mientras estás activo.</p>
-      </div>
-
-      <div class="profile-mock">
-        <div class="avatar-ring">🧑</div>
-        <div class="profile-mock-name">Andrés, 28</div>
-        <div class="profile-chips">
-          <span class="chip">Hombre</span>
-          <span class="chip">178 cm</span>
-          <span class="chip live">📍 Bar Berlín</span>
-        </div>
-        <p style="font-size:14px;color:var(--ink-muted);text-align:center;line-height:1.6;">
-          "Café, jazz, caminatas tarde."
-        </p>
-        <div class="tip-card">
-          <span>✨ Perfiles con 3+ fotos y bio matchean hasta 4× más.</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- LIKES / PREMIUM -->
-<section class="premium-section">
-  <div class="wrap">
-    <div class="label-sm">Feature premium</div>
-    <h2 class="title-lg">¿Quién te dio like?</h2>
-    <p class="sub-lg">Sabés que hay alguien que ya te vio y le gustaste. La lista está ahí — solo hay que desbloquearla.</p>
-    <div class="premium-layout">
-
-      <div class="likes-mock">
-        <div class="like-tile unlocked">
-          🧑
-          <span class="likes-count-badge">+3</span>
-        </div>
-        <div class="like-tile">
-          👩
-          <div class="blur-overlay"><div class="lock-icon">🔒</div></div>
-        </div>
-        <div class="like-tile">
-          🧑
-          <div class="blur-overlay"><div class="lock-icon">🔒</div></div>
-        </div>
-        <div class="like-tile">
-          👩
-          <div class="blur-overlay"><div class="lock-icon">🔒</div></div>
-        </div>
-      </div>
-
-      <div class="premium-text">
-        <h2>La lista existe. Están esperando.</h2>
-        <p>La primera persona que te dio like la ves gratis. Las demás aparecen borrosas hasta que desbloqueás la vista completa.</p>
-        <ul class="feat-list">
-          <li>Ves la foto y el nombre de quien te gustó</li>
-          <li>Podés darles like sin que aparezcan primero en el feed</li>
-          <li>La lista se actualiza cada 20 segundos en tiempo real</li>
-          <li>Pago integrado próximamente (MercadoPago / Stripe)</li>
-        </ul>
-        <a href="#" class="btn-card btn-red">Desbloquear likes →</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIOS -->
-<section class="testi-section">
-  <div class="wrap">
-    <div class="label-sm">Comunidad</div>
-    <h2 class="title-lg">Lo que dicen nuestros usuarios</h2>
-    <div class="testi-grid">
-      <div class="tcard">
-        <div class="stars">★★★★★</div>
-        <p class="ttext">"Estaba sola en un café en Rosario y vi que había alguien a 40 metros. Hicimos match. Charlamos dos horas. Nunca me había pasado algo así en una app."</p>
-        <div class="tauthor">
-          <div class="tav">V</div>
-          <div>
-            <div class="tname">Valentina R.</div>
-            <div class="ttag">Rosario</div>
-          </div>
-        </div>
-      </div>
-      <div class="tcard">
-        <div class="stars">★★★★★</div>
-        <p class="ttext">"Lo que me convenció es que sé que la persona está ahí de verdad. No hay fotos de hace 5 años ni perfiles de ciudades lejanas. Si está en el radar, está en el bar."</p>
-        <div class="tauthor">
-          <div class="tav">M</div>
-          <div>
-            <div class="tname">Matías C.</div>
-            <div class="ttag">Córdoba</div>
-          </div>
-        </div>
-      </div>
-      <div class="tcard">
-        <div class="stars">★★★★★</div>
-        <p class="ttext">"La activo solo cuando tengo ganas de conocer gente. Si quiero estar tranquilo, no existo. Eso es exactamente lo que necesitaba. Control total."</p>
-        <div class="tauthor">
-          <div class="tav">L</div>
-          <div>
-            <div class="tname">Lucas F.</div>
-            <div class="ttag">Buenos Aires</div>
-          </div>
-        </div>
+        <h3>Match → Chat</h3>
+        <p>Si se gustaron mutuamente, el chat es tuyo. Mandá fotos, audios o mensajes.</p>
       </div>
     </div>
   </div>
@@ -857,22 +511,49 @@
 
 <!-- CTA FINAL -->
 <section class="cta-section">
-  <div class="live-pill">
-    <div class="dot"></div>
-    HAY PERSONAS CERCA AHORA MISMO
-  </div>
   <h2>¿Estás listo para aparecer?</h2>
-  <p>Activá tu presencia. Si hay química, el chat es tuyo para siempre.</p>
-  <div class="hero-btns">
-    <a href="#" class="btn-main">📍 Activar presencia ahora</a>
-    <a href="#como-funciona" class="btn-ghost">Cómo funciona</a>
+  <p>Probala ahora en el navegador mientras esperás la versión nativa.</p>
+  <div class="download-group">
+    <div class="download-row">
+      <a href="#" class="dl-btn dl-ios dl-soon">
+        <span class="dl-btn-icon"></span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">App Store</span>
+        </span>
+      </a>
+      <a href="#" class="dl-btn dl-android dl-soon">
+        <span class="dl-btn-icon">🤖</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">Google Play</span>
+        </span>
+      </a>
+    </div>
+    <div class="download-row">
+      <a href="app.html" class="dl-btn dl-web">
+        <span class="dl-btn-icon">🌐</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Probala ahora en</span>
+          <span class="dl-btn-name">Versión Web</span>
+        </span>
+      </a>
+    </div>
+    <div class="beta-note">
+      ⚠️ App en fase de pruebas — todavía no disponible en tiendas oficiales
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <strong>HERE</strong> &nbsp;·&nbsp; Personas reales. Acá. Ahora.<br/>
-  <span style="margin-top:8px;display:block;">© 2026 HERE. Todos los derechos reservados.</span>
+  <strong>HERE</strong> &nbsp;·&nbsp; Personas reales. Acá. Ahora.
+  <div class="footer-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="#">Contacto</a>
+  </div>
+  <span style="margin-top:10px;display:block;">© 2026 HERE. Todos los derechos reservados.</span>
 </footer>
 
 </body>
