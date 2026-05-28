@@ -73,8 +73,10 @@
     /* ───────────────────────────────
        SCREEN: AUTH
     ─────────────────────────────── */
-    #screen-auth{align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
-    .auth-bg{position:absolute;inset:0;z-index:0}
+    #screen-auth{align-items:center;justify-content:center;padding:24px;
+      position:relative;overflow:hidden;
+      min-height:100vh;min-height:100dvh}
+    .auth-bg{position:fixed;inset:0;z-index:0}
     .auth-bg-slide{position:absolute;inset:0;background-size:cover;background-position:center top;
       opacity:0;transition:opacity 1.4s ease-in-out}
     .auth-bg-slide.active{opacity:1}
