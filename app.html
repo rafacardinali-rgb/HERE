@@ -721,6 +721,17 @@ let unlockedLikes = false;
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
 async function boot() {
+  // Detect session invalidation from another device in real time
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT' && currentUser) {
+      currentUser = null;
+      currentProfile = null;
+      showScreen('auth');
+      document.getElementById('auth-error').textContent = 'Tu sesión fue cerrada porque iniciaste sesión desde otro dispositivo.';
+      document.getElementById('auth-error').style.display = 'block';
+    }
+  });
+
   const { data: { session } } = await sb.auth.getSession();
   if (session?.user) {
     currentUser = session.user;
@@ -793,6 +804,8 @@ window.handleAuth = async () => {
     if (!currentUser && authMode === 'signup') {
       showError(errEl, 'Revisá tu email para confirmar tu cuenta.'); return;
     }
+    // Kick out all other active sessions (phone, other tabs, etc.)
+    await sb.auth.signOut({ scope: 'others' });
     await loadProfile();
     if (needsOnboarding()) showScreen('onboarding');
     else { showScreen('main'); await afterLogin(); }
