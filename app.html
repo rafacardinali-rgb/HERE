@@ -77,9 +77,10 @@
       position:relative;overflow:hidden;
       min-height:100vh;min-height:100dvh}
     .auth-bg{position:fixed;inset:0;z-index:0}
-    .auth-bg-slide{position:absolute;inset:0;background-size:cover;background-position:center top;
+    .auth-bg-slide{position:absolute;inset:0;overflow:hidden;
       opacity:0;transition:opacity 1.4s ease-in-out}
     .auth-bg-slide.active{opacity:1}
+    .auth-bg-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
     .auth-bg-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.75) 100%)}
     .auth-box{width:100%;max-width:380px;display:flex;flex-direction:column;gap:0;position:relative;z-index:1}
     .auth-logo{font-size:40px;font-weight:900;color:#fff;letter-spacing:-2px;margin-bottom:4px}
@@ -413,8 +414,8 @@
 <!-- ─────────── AUTH ─────────── -->
 <div class="screen" id="screen-auth">
   <div class="auth-bg">
-    <div class="auth-bg-slide active" style="background-image:url('assets/LOGO-HERE.jpg')"></div>
-    <div class="auth-bg-slide" style="background-image:url('assets/LOGO-HERE2.jpg')"></div>
+    <div class="auth-bg-slide active"><img src="assets/LOGO-HERE.jpg" alt=""/></div>
+    <div class="auth-bg-slide"><img src="assets/LOGO-HERE2.jpg" alt=""/></div>
     <div class="auth-bg-overlay"></div>
   </div>
   <div class="auth-box">
