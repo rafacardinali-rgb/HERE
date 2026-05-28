@@ -74,9 +74,8 @@
        SCREEN: AUTH
     ─────────────────────────────── */
     #screen-auth{align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
-    .auth-bg{position:absolute;inset:0;z-index:0;background:var(--bg)}
-    .auth-bg-slide{position:absolute;inset:0;background-size:contain;background-position:center;
-      background-repeat:no-repeat;background-color:var(--bg);
+    .auth-bg{position:absolute;inset:0;z-index:0}
+    .auth-bg-slide{position:absolute;inset:0;background-size:cover;background-position:center top;
       opacity:0;transition:opacity 1.4s ease-in-out}
     .auth-bg-slide.active{opacity:1}
     .auth-bg-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.75) 100%)}
