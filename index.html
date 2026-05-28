@@ -341,6 +341,63 @@
       margin-bottom: 40px; position: relative;
     }
 
+    /* ─── WAITLIST ─── */
+    .waitlist-section {
+      padding: 80px 24px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(255,88,100,.04) 50%, var(--bg) 100%);
+    }
+    .wl-counter-pill {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.35);
+      border-radius: 999px; padding: 10px 26px;
+      margin-bottom: 30px;
+    }
+    .wl-count-num {
+      font-size: 30px; font-weight: 900; color: var(--accent); line-height: 1;
+    }
+    .wl-count-label {
+      font-size: 14px; font-weight: 700; color: var(--ink-soft);
+    }
+    .waitlist-section h2 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 900; letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .waitlist-section .wl-sub {
+      color: var(--ink-muted); font-size: 16px;
+      max-width: 440px; margin: 0 auto 36px; line-height: 1.65;
+    }
+    .wl-form {
+      display: flex; flex-direction: column; gap: 12px;
+      max-width: 400px; margin: 0 auto;
+    }
+    .wl-input {
+      background: var(--bg-el); border: 1px solid var(--border);
+      border-radius: 14px; padding: 15px 18px;
+      font-size: 16px; color: var(--ink); width: 100%;
+      outline: none; font-family: inherit; transition: border-color .15s;
+    }
+    .wl-input::placeholder { color: var(--ink-muted); }
+    .wl-input:focus { border-color: var(--accent); }
+    .wl-btn {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 14px; padding: 15px 24px;
+      font-size: 16px; font-weight: 800; cursor: pointer;
+      transition: opacity .15s, transform .15s;
+    }
+    .wl-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .wl-btn:disabled { opacity: .5; cursor: default; transform: none; }
+    .wl-error { color: var(--accent); font-size: 13px; font-weight: 700; min-height: 18px; }
+    .wl-success {
+      display: none;
+      background: rgba(61,220,139,.08); border: 1px solid rgba(61,220,139,.3);
+      border-radius: 16px; padding: 22px 24px;
+      color: var(--like); font-weight: 700; font-size: 16px;
+      max-width: 400px; margin: 0 auto;
+    }
+
     /* ─── FOOTER ─── */
     footer {
       background: var(--bg-el);
@@ -518,6 +575,25 @@
   </div>
 </section>
 
+<!-- WAITLIST -->
+<section class="waitlist-section" id="waitlist">
+  <div class="wl-counter-pill">
+    <span class="wl-count-num" id="wl-count">–</span>
+    <span class="wl-count-label">personas anotadas</span>
+  </div>
+  <h2>Sé de los primeros.</h2>
+  <p class="wl-sub">Anotate y te avisamos cuando la app esté disponible en iOS y Android.</p>
+  <div class="wl-form" id="wl-form-wrap">
+    <input class="wl-input" id="wl-name" type="text" placeholder="Tu nombre" maxlength="60"/>
+    <input class="wl-input" id="wl-email" type="email" placeholder="tu@email.com"/>
+    <div class="wl-error" id="wl-error"></div>
+    <button class="wl-btn" id="wl-btn" onclick="joinWaitlist()">Anotarme para la beta →</button>
+  </div>
+  <div class="wl-success" id="wl-success">
+    ¡Listo! Ya estás en la lista. Te avisamos cuando lancemos.
+  </div>
+</section>
+
 <!-- CTA FINAL -->
 <section class="cta-section">
   <h2>¿Estás listo para aparecer?</h2>
@@ -565,5 +641,48 @@
   <span style="margin-top:10px;display:block;">© 2026 HERE. Todos los derechos reservados.</span>
 </footer>
 
+<script>
+  const SB_URL = 'https://qxtlmatcwflbexmpxmqq.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dGxtYXRjd2ZsYmV4bXB4bXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczOTk4NjAsImV4cCI6MjA5Mjk3NTg2MH0.aRv-cXdQ3vYkI5hfWtbXcCYWpi8F8ZL_zzyc-290Z2k';
+  const HEADERS = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+
+  async function loadCount() {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/rpc/get_waitlist_count`, {
+        method: 'POST', headers: HEADERS, body: '{}'
+      });
+      if (r.ok) document.getElementById('wl-count').textContent = await r.json();
+    } catch(e) {}
+  }
+
+  async function joinWaitlist() {
+    const name  = document.getElementById('wl-name').value.trim();
+    const email = document.getElementById('wl-email').value.trim();
+    const errEl = document.getElementById('wl-error');
+    const btn   = document.getElementById('wl-btn');
+    errEl.textContent = '';
+    if (!name)  { errEl.textContent = 'Ingresá tu nombre.'; return; }
+    if (!email || !email.includes('@')) { errEl.textContent = 'Email inválido.'; return; }
+    btn.disabled = true; btn.textContent = 'Guardando…';
+    const r = await fetch(`${SB_URL}/rest/v1/waitlist`, {
+      method: 'POST',
+      headers: { ...HEADERS, Prefer: 'return=minimal' },
+      body: JSON.stringify({ name, email })
+    });
+    if (r.status === 201 || r.ok) {
+      document.getElementById('wl-form-wrap').style.display = 'none';
+      document.getElementById('wl-success').style.display = 'block';
+      loadCount();
+    } else if (r.status === 409) {
+      errEl.textContent = '¡Ese email ya está anotado!';
+      btn.disabled = false; btn.textContent = 'Anotarme para la beta →';
+    } else {
+      errEl.textContent = 'Algo falló. Intentá de nuevo.';
+      btn.disabled = false; btn.textContent = 'Anotarme para la beta →';
+    }
+  }
+
+  loadCount();
+</script>
 </body>
 </html>
