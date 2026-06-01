@@ -414,11 +414,7 @@
 <!-- ─────────── AUTH ─────────── -->
 <div class="screen" id="screen-auth">
   <div class="auth-bg">
-    <div class="auth-bg-slide active"><video src="assets/ReelHere1.mov" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;display:block;"></video></div>
-    <div class="auth-bg-slide"><img src="assets/here-boliche.png" alt=""/></div>
-    <div class="auth-bg-slide"><img src="assets/here-bar.png" alt=""/></div>
-    <div class="auth-bg-slide"><img src="assets/here-bar-noche.jpg" alt=""/></div>
-    <div class="auth-bg-slide"><img src="assets/here-parque.jpg" alt=""/></div>
+    <div class="auth-bg-slide active"><video src="assets/ReelHere1.mov" muted playsinline autoplay loop style="width:100%;height:100%;object-fit:cover;display:block;"></video></div>
     <div class="auth-bg-overlay"></div>
   </div>
   <div class="auth-box">
@@ -770,42 +766,8 @@ async function afterLogin() {
 }
 
 // ── AUTH BG SLIDESHOW ────────────────────────────────────────────────────────
-(function startAuthBg() {
-  const slides = document.querySelectorAll('.auth-bg-slide');
-  if (slides.length < 2) return;
-  let current = 0;
-  let timer = null;
-
-  function goTo(index) {
-    const prev = slides[current];
-    const prevVideo = prev.querySelector('video');
-    if (prevVideo) { prevVideo.pause(); prevVideo.currentTime = 0; }
-    prev.classList.remove('active');
-
-    current = index % slides.length;
-    const next = slides[current];
-    next.classList.add('active');
-    const nextVideo = next.querySelector('video');
-
-    if (timer) clearTimeout(timer);
-    if (nextVideo) {
-      nextVideo.play().catch(() => {});
-      nextVideo.onended = () => goTo(current + 1);
-      timer = setTimeout(() => goTo(current + 1), 60000);
-    } else {
-      timer = setTimeout(() => goTo(current + 1), 30000);
-    }
-  }
-
-  const firstVideo = slides[0].querySelector('video');
-  if (firstVideo) {
-    firstVideo.play().catch(() => {});
-    firstVideo.onended = () => goTo(1);
-    timer = setTimeout(() => goTo(1), 60000);
-  } else {
-    timer = setTimeout(() => goTo(1), 30000);
-  }
-})();
+// Auth background video autoplays muted on loop
+document.querySelector('.auth-bg-slide video')?.play().catch(() => {});
 
 // ── AUTH ─────────────────────────────────────────────────────────────────────
 window.switchAuthTab = (mode) => {

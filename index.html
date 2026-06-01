@@ -342,23 +342,12 @@
     }
 
     /* ─── LOGO SLIDESHOW ─── */
-    .logo-slide-section {
-      position: relative; overflow: hidden;
-      background: var(--bg);
-      width: 100%; margin: 0; padding: 0;
-      aspect-ratio: 16/9;
+    .video-section {
+      width: 100%; background: #000; margin: 0; padding: 0;
     }
-    .logo-slide {
-      position: absolute; inset: 0;
-      opacity: 0; transition: opacity 1.4s ease-in-out;
-    }
-    .logo-slide.active { opacity: 1; }
-    .logo-slide img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      user-select: none; pointer-events: none;
+    .video-section video {
+      width: 100%; display: block;
+      aspect-ratio: 16/9; object-fit: contain;
     }
 
     /* ─── WAITLIST ─── */
@@ -528,23 +517,11 @@
   </div>
 </section>
 
-<!-- LOGO SLIDESHOW -->
-<section class="logo-slide-section">
-  <div class="logo-slide active">
-    <video src="assets/ReelHere1.mov" muted playsinline autoplay style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-  </div>
-  <div class="logo-slide">
-    <img src="assets/here-boliche.png" alt="HERE" draggable="false"/>
-  </div>
-  <div class="logo-slide">
-    <img src="assets/here-bar.png" alt="HERE" draggable="false"/>
-  </div>
-  <div class="logo-slide">
-    <img src="assets/here-bar-noche.jpg" alt="HERE" draggable="false"/>
-  </div>
-  <div class="logo-slide">
-    <img src="assets/here-parque.jpg" alt="HERE" draggable="false"/>
-  </div>
+<!-- VIDEO -->
+<section class="video-section">
+  <video controls preload="metadata">
+    <source src="assets/ReelHere1.mov" type="video/mp4"/>
+  </video>
 </section>
 
 <!-- FEATURES -->
@@ -675,47 +652,6 @@
   </div>
   <span style="margin-top:10px;display:block;">© 2026 HERE. Todos los derechos reservados.</span>
 </footer>
-
-<script>
-  // Logo slideshow — imágenes 30s, video dura lo que dura y pasa al siguiente
-  (function() {
-    const slides = document.querySelectorAll('.logo-slide');
-    let current = 0;
-    let timer = null;
-
-    function goTo(index) {
-      const prev = slides[current];
-      const prevVideo = prev.querySelector('video');
-      if (prevVideo) { prevVideo.pause(); prevVideo.currentTime = 0; }
-      prev.classList.remove('active');
-
-      current = index % slides.length;
-      const next = slides[current];
-      next.classList.add('active');
-      const nextVideo = next.querySelector('video');
-
-      if (timer) clearTimeout(timer);
-      if (nextVideo) {
-        nextVideo.play().catch(() => {});
-        nextVideo.onended = () => goTo(current + 1);
-        // Fallback: si el video no carga en 5s pasa igual
-        timer = setTimeout(() => goTo(current + 1), 60000);
-      } else {
-        timer = setTimeout(() => goTo(current + 1), 30000);
-      }
-    }
-
-    // Arranca el video del primer slide
-    const firstVideo = slides[0].querySelector('video');
-    if (firstVideo) {
-      firstVideo.play().catch(() => {});
-      firstVideo.onended = () => goTo(1);
-      timer = setTimeout(() => goTo(1), 60000);
-    } else {
-      timer = setTimeout(() => goTo(1), 30000);
-    }
-  })();
-</script>
 
 <script>
   const SB_URL = 'https://qxtlmatcwflbexmpxmqq.supabase.co';
