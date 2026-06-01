@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HERE — Personas reales. Acá. Ahora.</title>
+  <meta name="description" content="HERE te muestra quién está en el mismo lugar que vos en este momento. Descargala en iOS, Android o usala desde el navegador." />
+  <link rel="canonical" href="https://ihere.com.ar" />
+  <meta property="og:title" content="HERE — Personas reales. Acá. Ahora." />
+  <meta property="og:description" content="HERE te muestra quién está en el mismo lugar que vos en este momento. Activá presencia, deslizá, hacé match antes de que desaparezca." />
+  <meta property="og:url" content="https://ihere.com.ar" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HERE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HERE — Personas reales. Acá. Ahora." />
+  <meta name="twitter:description" content="HERE te muestra quién está en el mismo lugar que vos en este momento." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0B0B0F;
+      --bg-el:       #16161C;
+      --card:        #1B1B22;
+      --ink:         #FAFAFA;
+      --ink-soft:    #C9C9D1;
+      --ink-muted:   #7A7A85;
+      --border:      #26262F;
+      --accent:      #FF5864;
+      --accent-soft: #3A1E22;
+      --like:        #3DDC8B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11,11,15,0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo {
+      width: 36px; height: 36px;
+      background: var(--accent); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -1px;
+    }
+    .nav-name { font-size: 21px; font-weight: 900; color: var(--ink); letter-spacing: -0.4px; }
+    .nav-badge {
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.35);
+      color: var(--accent);
+      border-radius: 999px; padding: 4px 12px;
+      font-size: 11px; font-weight: 800; letter-spacing: .5px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 80px 24px 72px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,88,100,.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 15% 100%, rgba(61,220,139,.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .ring {
+      position: absolute; left: 50%; top: 42%;
+      transform: translate(-50%,-50%);
+      border-radius: 50%;
+      border: 1px solid rgba(255,88,100,.14);
+      animation: rpulse 3.4s ease-out infinite;
+      pointer-events: none;
+    }
+    .ring:nth-child(1){ width:260px; height:260px; animation-delay:0s; }
+    .ring:nth-child(2){ width:480px; height:480px; animation-delay:1s; }
+    .ring:nth-child(3){ width:700px; height:700px; animation-delay:2s; }
+    @keyframes rpulse {
+      0%   { opacity:.6; transform:translate(-50%,-50%) scale(.85); }
+      100% { opacity:0;  transform:translate(-50%,-50%) scale(1.05); }
+    }
+
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.3);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 12px; font-weight: 800; color: var(--accent);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 26px; position: relative;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.2;} }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 78px);
+      font-weight: 900; letter-spacing: -2.5px; line-height: 1.0;
+      color: var(--ink); margin-bottom: 20px; position: relative;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero .hero-sub {
+      font-size: clamp(16px, 2vw, 20px); color: var(--ink-soft);
+      max-width: 480px; margin: 0 auto 48px;
+      line-height: 1.7; position: relative;
+    }
+
+    /* ─── DOWNLOAD BUTTONS ─── */
+    .download-group {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      position: relative; margin-bottom: 20px;
+    }
+    .download-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .dl-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 24px; border-radius: 16px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      text-decoration: none; border: none;
+      transition: opacity .15s, transform .15s;
+      min-width: 200px;
+    }
+    .dl-btn:hover { opacity: .88; transform: translateY(-2px); }
+    .dl-btn-icon { font-size: 22px; flex-shrink: 0; }
+    .dl-btn-text { text-align: left; }
+    .dl-btn-label { font-size: 11px; opacity: .7; font-weight: 600; display: block; }
+    .dl-btn-name  { font-size: 16px; font-weight: 800; display: block; line-height: 1.1; }
+
+    .dl-ios {
+      background: var(--ink); color: var(--bg);
+    }
+    .dl-android {
+      background: var(--like); color: #0a1a0f;
+    }
+    .dl-web {
+      background: var(--accent); color: #fff;
+    }
+    .dl-soon {
+      background: var(--card); color: var(--ink-muted);
+      border: 1px solid var(--border);
+      cursor: not-allowed; pointer-events: none;
+      opacity: .6;
+    }
+    .dl-soon:hover { transform: none; opacity: .6; }
+
+    .beta-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(251,191,36,.08);
+      border: 1px solid rgba(251,191,36,.25);
+      border-radius: 12px; padding: 10px 18px;
+      font-size: 13px; font-weight: 600; color: #FBBF24;
+      margin-top: 8px;
+    }
+
+    /* ─── PHONE MOCKUP ─── */
+    .phone-wrap {
+      display: flex; justify-content: center;
+      margin: 56px auto 0; position: relative;
+    }
+    .phone {
+      width: 270px;
+      background: var(--bg-el);
+      border: 2px solid var(--border);
+      border-radius: 44px;
+      padding: 14px;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,.6),
+        0 0 0 1px rgba(255,255,255,.04),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      position: relative;
+    }
+    .phone-notch {
+      width: 90px; height: 28px;
+      background: var(--bg);
+      border-radius: 0 0 18px 18px;
+      margin: 0 auto 10px;
+      position: relative;
+    }
+    .phone-notch::after {
+      content: "";
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--border);
+    }
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 9/18;
+      position: relative;
+    }
+    .phone-status {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 16px 4px;
+      font-size: 11px; font-weight: 700; color: var(--ink-soft);
+    }
+    .phone-feed-card {
+      margin: 0 10px;
+      border-radius: 22px; overflow: hidden;
+      background: linear-gradient(160deg, #2a1220 0%, #1a0f18 60%, #0d0d14 100%);
+      position: relative;
+      aspect-ratio: 3/4.2;
+      border: 1px solid rgba(255,88,100,.2);
+    }
+    .phone-avatar {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 72px; opacity: .5;
+    }
+    .phone-live-pill {
+      position: absolute; top: 10px; left: 10px;
+      display: flex; align-items: center; gap: 5px;
+      background: var(--accent); border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 9px; font-weight: 900; color: #fff; letter-spacing: 1px;
+    }
+    .phone-timer {
+      position: absolute; top: 10px; right: 10px;
+      font-size: 10px; font-weight: 700; color: rgba(255,255,255,.75);
+    }
+    .phone-card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 14px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,.9));
+    }
+    .phone-name { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -.5px; }
+    .phone-place { font-size: 11px; color: rgba(255,255,255,.75); margin-top: 2px; }
+    .phone-actions {
+      display: flex; justify-content: center; align-items: center;
+      gap: 14px; padding: 12px 10px;
+    }
+    .pa { display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; flex-shrink: 0; font-size: 18px; }
+    .pa-pass   { width:46px; height:46px; background:var(--card); border:1px solid var(--border); }
+    .pa-like   { width:58px; height:58px; background:var(--accent);
+      box-shadow:0 6px 20px rgba(255,88,100,.5); }
+    .pa-ref    { width:38px; height:38px; background:var(--card); border:1px solid var(--border); }
+
+    /* ─── FEATURES ─── */
+    .features { padding: 80px 24px; }
+    .section-wrap { max-width: 960px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 44px); font-weight: 900;
+      letter-spacing: -1px; color: var(--ink); text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--ink-muted);
+      text-align: center; max-width: 460px;
+      margin: 0 auto 52px; line-height: 1.65;
+    }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .feat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 22px; padding: 26px;
+      transition: border-color .2s;
+    }
+    .feat-card:hover { border-color: rgba(255,88,100,.3); }
+    .feat-icon { font-size: 30px; margin-bottom: 14px; }
+    .feat-card h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .feat-card p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── STEPS ─── */
+    .steps-section { background: var(--bg-el); padding: 80px 24px; }
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0; margin-top: 48px;
+    }
+    .step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 28px 20px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute; right: -4px; top: 38px;
+      color: var(--border); font-size: 22px;
+    }
+    @media(max-width:640px){ .step:not(:last-child)::after { display: none; } }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.3);
+      color: var(--accent); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; margin-bottom: 16px;
+    }
+    .step h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .step p  { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ─── CTA FINAL ─── */
+    .cta-section {
+      padding: 90px 24px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    .cta-section::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(255,88,100,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 900; color: var(--ink);
+      letter-spacing: -1.2px; margin-bottom: 14px; position: relative;
+    }
+    .cta-section p {
+      font-size: 17px; color: var(--ink-muted);
+      margin-bottom: 40px; position: relative;
+    }
+
+    /* ─── LOGO SLIDESHOW ─── */
+    .video-section {
+      width: 100%; background: #000; margin: 0; padding: 0;
+    }
+    .video-section video {
+      width: 100%; display: block;
+      aspect-ratio: 16/9; object-fit: contain;
+    }
+
+    /* ─── WAITLIST ─── */
+    .waitlist-section {
+      padding: 80px 24px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(255,88,100,.04) 50%, var(--bg) 100%);
+    }
+    .wl-counter-pill {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,88,100,.35);
+      border-radius: 999px; padding: 10px 26px;
+      margin-bottom: 30px;
+    }
+    .wl-count-num {
+      font-size: 30px; font-weight: 900; color: var(--accent); line-height: 1;
+    }
+    .wl-count-label {
+      font-size: 14px; font-weight: 700; color: var(--ink-soft);
+    }
+    .waitlist-section h2 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 900; letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .waitlist-section .wl-sub {
+      color: var(--ink-muted); font-size: 16px;
+      max-width: 440px; margin: 0 auto 36px; line-height: 1.65;
+    }
+    .wl-form {
+      display: flex; flex-direction: column; gap: 12px;
+      max-width: 400px; margin: 0 auto;
+    }
+    .wl-input {
+      background: var(--bg-el); border: 1px solid var(--border);
+      border-radius: 14px; padding: 15px 18px;
+      font-size: 16px; color: var(--ink); width: 100%;
+      outline: none; font-family: inherit; transition: border-color .15s;
+    }
+    .wl-input::placeholder { color: var(--ink-muted); }
+    .wl-input:focus { border-color: var(--accent); }
+    .wl-btn {
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 14px; padding: 15px 24px;
+      font-size: 16px; font-weight: 800; cursor: pointer;
+      transition: opacity .15s, transform .15s;
+    }
+    .wl-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .wl-btn:disabled { opacity: .5; cursor: default; transform: none; }
+    .wl-error { color: var(--accent); font-size: 13px; font-weight: 700; min-height: 18px; }
+    .wl-success {
+      display: none;
+      background: rgba(61,220,139,.08); border: 1px solid rgba(61,220,139,.3);
+      border-radius: 16px; padding: 22px 24px;
+      color: var(--like); font-weight: 700; font-size: 16px;
+      max-width: 400px; margin: 0 auto;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg-el);
+      border-top: 1px solid var(--border);
+      color: var(--ink-muted); text-align: center;
+      padding: 28px 24px; font-size: 13px;
+    }
+    footer strong { color: var(--ink); }
+    .footer-links { display: flex; gap: 20px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    .footer-links a { color: var(--ink-muted); text-decoration: none; font-size: 12px; }
+    .footer-links a:hover { color: var(--ink); }
+
+    @media(max-width:500px){
+      .hero { padding: 60px 20px 56px; }
+      .dl-btn { min-width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">H</div>
+    <span class="nav-name">HERE</span>
+  </a>
+  <span class="nav-badge">BETA</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+
+  <div class="live-badge">
+    <div class="dot"></div>
+    PERSONAS CERCA AHORA MISMO
+  </div>
+
+  <h1>Personas reales.<br><em>Acá. Ahora.</em></h1>
+
+  <p class="hero-sub">
+    HERE te muestra quién está en el mismo lugar que vos en este momento.
+    Activá presencia, deslizá, hacé match antes de que desaparezca.
+  </p>
+
+  <!-- DOWNLOAD BUTTONS -->
+  <div class="download-group">
+    <div class="download-row">
+      <a href="#" class="dl-btn dl-ios dl-soon">
+        <span class="dl-btn-icon"></span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">App Store</span>
+        </span>
+      </a>
+      <a href="#" class="dl-btn dl-android dl-soon">
+        <span class="dl-btn-icon">🤖</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">Google Play</span>
+        </span>
+      </a>
+    </div>
+    <div class="download-row">
+      <a href="app.html" class="dl-btn dl-web">
+        <span class="dl-btn-icon">🌐</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Probala ahora en</span>
+          <span class="dl-btn-name">Versión Web</span>
+        </span>
+      </a>
+    </div>
+    <div class="beta-note">
+      ⚠️ App en fase de pruebas — todavía no disponible en tiendas oficiales
+    </div>
+  </div>
+
+  <!-- PHONE MOCKUP -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-status">
+          <span>HERE</span>
+          <span>📍 500 m</span>
+        </div>
+        <div class="phone-feed-card">
+          <div class="phone-avatar">🧑</div>
+          <div class="phone-live-pill">
+            <div class="dot" style="width:5px;height:5px;"></div>
+            EN VIVO
+          </div>
+          <div class="phone-timer">28m restantes</div>
+          <div class="phone-card-info">
+            <div class="phone-name">Valentina, 26</div>
+            <div class="phone-place">📍 Café del Ángel · 120 m</div>
+          </div>
+        </div>
+        <div class="phone-actions">
+          <div class="pa pa-pass">✕</div>
+          <div class="pa pa-like">❤️</div>
+          <div class="pa pa-ref">↺</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="video-section">
+  <video controls preload="metadata" poster="assets/portadaRELL.png">
+    <source src="assets/ReelHere1.mov" type="video/mp4"/>
+  </video>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-wrap">
+    <div class="section-label">Por qué HERE</div>
+    <h2 class="section-title">La app que conecta el presente</h2>
+    <p class="section-sub">No hay fotos de hace 5 años ni perfiles de otras ciudades. Si está en el radar, está en el lugar.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">👻</div>
+        <h3>Invisible por default</h3>
+        <p>Sin activar presencia no aparecés en ningún feed. Vos decidís cuándo existir.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⏱️</div>
+        <h3>Presencia efímera</h3>
+        <p>1 h, 3 h, hasta medianoche. Cuando termina el tiempo, desaparecés automáticamente.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">❤️</div>
+        <h3>Match mutuo</h3>
+        <p>Solo cuando los dos se dan like se forma el match. Sin like unilateral en el chat.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">💬</div>
+        <h3>El chat persiste</h3>
+        <p>Aunque la presencia expire, el chat sigue siendo tuyo. La conexión fue real.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📸</div>
+        <h3>Fotos y audios en vivo</h3>
+        <p>El chat solo permite fotos tomadas en el momento y audios en tiempo real. Sin contenido del álbum.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🛡️</div>
+        <h3>Bloqueo instantáneo</h3>
+        <p>Un tap y esa persona desaparece para siempre de todos lados. Sin segunda chances.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="steps-section">
+  <div class="section-wrap">
+    <div class="section-label">¿Cómo funciona?</div>
+    <h2 class="section-title">Tres pasos y ya estás visible</h2>
+    <p class="section-sub">Es rápido. Es real. Y cuando termina, es como si nunca hubieras estado.</p>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Activá tu presencia</h3>
+        <p>Elegís el lugar donde estás y cuánto tiempo querés ser visible. El GPS lo detecta solo.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Deslizá personas cercanas</h3>
+        <p>Ves quién está en ese lugar ahora mismo. Derecha para like, izquierda para pasar.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Match → Chat</h3>
+        <p>Si se gustaron mutuamente, el chat es tuyo. Mandá fotos, audios o mensajes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist-section" id="waitlist">
+  <h2>Sé de los primeros.</h2>
+  <p class="wl-sub">Anotate y te avisamos cuando la app esté disponible en iOS y Android.</p>
+  <div class="wl-form" id="wl-form-wrap">
+    <input class="wl-input" id="wl-name" type="text" placeholder="Tu nombre" maxlength="60"/>
+    <input class="wl-input" id="wl-email" type="email" placeholder="tu@email.com"/>
+    <div class="wl-error" id="wl-error"></div>
+    <button class="wl-btn" id="wl-btn" onclick="joinWaitlist()">Anotarme para la beta →</button>
+  </div>
+  <div class="wl-success" id="wl-success">
+    ¡Listo! Ya estás en la lista. Te avisamos cuando lancemos.
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <h2>¿Estás listo para aparecer?</h2>
+  <p>Probala ahora en el navegador mientras esperás la versión nativa.</p>
+  <div class="download-group">
+    <div class="download-row">
+      <a href="#" class="dl-btn dl-ios dl-soon">
+        <span class="dl-btn-icon"></span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">App Store</span>
+        </span>
+      </a>
+      <a href="#" class="dl-btn dl-android dl-soon">
+        <span class="dl-btn-icon">🤖</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Próximamente en</span>
+          <span class="dl-btn-name">Google Play</span>
+        </span>
+      </a>
+    </div>
+    <div class="download-row">
+      <a href="app.html" class="dl-btn dl-web">
+        <span class="dl-btn-icon">🌐</span>
+        <span class="dl-btn-text">
+          <span class="dl-btn-label">Probala ahora en</span>
+          <span class="dl-btn-name">Versión Web</span>
+        </span>
+      </a>
+    </div>
+    <div class="beta-note">
+      ⚠️ App en fase de pruebas — todavía no disponible en tiendas oficiales
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>HERE</strong> &nbsp;·&nbsp; Personas reales. Acá. Ahora.
+  <div class="footer-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="#">Contacto</a>
+  </div>
+  <span style="margin-top:10px;display:block;">© 2026 HERE. Todos los derechos reservados.</span>
+</footer>
+
+<script>
+  const SB_URL = 'https://qxtlmatcwflbexmpxmqq.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dGxtYXRjd2ZsYmV4bXB4bXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczOTk4NjAsImV4cCI6MjA5Mjk3NTg2MH0.aRv-cXdQ3vYkI5hfWtbXcCYWpi8F8ZL_zzyc-290Z2k';
+  const HEADERS = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+
+  async function joinWaitlist() {
+    const name  = document.getElementById('wl-name').value.trim();
+    const email = document.getElementById('wl-email').value.trim();
+    const errEl = document.getElementById('wl-error');
+    const btn   = document.getElementById('wl-btn');
+    errEl.textContent = '';
+    if (!name)  { errEl.textContent = 'Ingresá tu nombre.'; return; }
+    if (!email || !email.includes('@')) { errEl.textContent = 'Email inválido.'; return; }
+    btn.disabled = true; btn.textContent = 'Guardando…';
+    const r = await fetch(`${SB_URL}/rest/v1/waitlist`, {
+      method: 'POST',
+      headers: { ...HEADERS, Prefer: 'return=minimal' },
+      body: JSON.stringify({ name, email })
+    });
+    if (r.status === 201 || r.ok) {
+      document.getElementById('wl-form-wrap').style.display = 'none';
+      document.getElementById('wl-success').style.display = 'block';
+      loadCount();
+    } else if (r.status === 409) {
+      errEl.textContent = '¡Ese email ya está anotado!';
+      btn.disabled = false; btn.textContent = 'Anotarme para la beta →';
+    } else {
+      errEl.textContent = 'Algo falló. Intentá de nuevo.';
+      btn.disabled = false; btn.textContent = 'Anotarme para la beta →';
+    }
+  }
+</script>
+</body>
+</html>
