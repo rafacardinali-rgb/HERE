@@ -37,6 +37,9 @@
     .login-btn:hover{opacity:.88}
     .login-btn:disabled{opacity:.5;cursor:default}
     .login-err{color:var(--accent);font-size:13px;font-weight:700;margin-top:12px;min-height:18px}
+    .login-remember{display:flex;align-items:center;gap:10px;margin-top:16px;
+      font-size:13px;color:var(--ink-soft);cursor:pointer;user-select:none}
+    .login-remember input{width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
 
     /* ── DASHBOARD ── */
     #page-dash{display:none;flex-direction:column;min-height:100vh}
@@ -98,11 +101,13 @@
   <div class="login-box">
     <div class="login-logo">here</div>
     <div class="login-sub">Panel de administración</div>
-    <label class="login-label">Email</label>
-    <input class="login-input" id="login-email" type="email" placeholder="tu@email.com" autocomplete="email"/>
-    <label class="login-label">Contraseña</label>
+    <label class="login-label" for="login-pass">Contraseña</label>
     <input class="login-input" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password"
            onkeydown="if(event.key==='Enter') doLogin()"/>
+    <label class="login-remember">
+      <input type="checkbox" id="login-remember" checked/>
+      Mantener sesión abierta en este dispositivo
+    </label>
     <div class="login-err" id="login-err"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">Ingresar</button>
   </div>
@@ -145,29 +150,63 @@
 <script>
   const SB_URL = 'https://qxtlmatcwflbexmpxmqq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4dGxtYXRjd2ZsYmV4bXB4bXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczOTk4NjAsImV4cCI6MjA5Mjk3NTg2MH0.aRv-cXdQ3vYkI5hfWtbXcCYWpi8F8ZL_zzyc-290Z2k';
-  const sb = supabase.createClient(SB_URL, SB_KEY);
+  const ADMIN_EMAIL = 'rafacardinali@gmail.com';
+
+  // Misma clave que usa supabase-js por defecto, así las sesiones ya abiertas siguen valiendo
+  const AUTH_KEY = 'sb-' + new URL(SB_URL).hostname.split('.')[0] + '-auth-token';
+  const REMEMBER_KEY = 'here-admin-remember';
+
+  function storageGet(store, key) { try { return store.getItem(key); } catch { return null; } }
+  function storageSet(store, key, val) { try { store.setItem(key, val); } catch {} }
+  function storageDel(store, key) { try { store.removeItem(key); } catch {} }
+
+  // Con el tilde la sesión vive en localStorage; sin el tilde, en sessionStorage
+  function rememberSession() { return storageGet(localStorage, REMEMBER_KEY) !== '0'; }
+  function setRememberSession(on) { storageSet(localStorage, REMEMBER_KEY, on ? '1' : '0'); }
+
+  const authStorage = {
+    getItem(key) {
+      return storageGet(rememberSession() ? localStorage : sessionStorage, key);
+    },
+    setItem(key, val) {
+      const remember = rememberSession();
+      storageSet(remember ? localStorage : sessionStorage, key, val);
+      storageDel(remember ? sessionStorage : localStorage, key);
+    },
+    removeItem(key) {
+      storageDel(localStorage, key);
+      storageDel(sessionStorage, key);
+    },
+  };
+
+  const sb = supabase.createClient(SB_URL, SB_KEY, {
+    auth: { storage: authStorage, storageKey: AUTH_KEY },
+  });
 
   let allMembers = [];
 
   async function doLogin() {
-    const email = document.getElementById('login-email').value.trim();
     const pass  = document.getElementById('login-pass').value;
     const errEl = document.getElementById('login-err');
     const btn   = document.getElementById('login-btn');
     errEl.textContent = '';
-    if (!email || !pass) { errEl.textContent = 'Completá email y contraseña.'; return; }
+    if (!pass) { errEl.textContent = 'Ingresá la contraseña.'; return; }
     btn.disabled = true; btn.textContent = 'Ingresando…';
-    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+    setRememberSession(document.getElementById('login-remember').checked);
+    const { error } = await sb.auth.signInWithPassword({ email: ADMIN_EMAIL, password: pass });
     if (error) {
-      errEl.textContent = 'Email o contraseña incorrectos.';
+      errEl.textContent = error.status === 400 ? 'Contraseña incorrecta' : 'No se pudo conectar. Probá de nuevo.';
       btn.disabled = false; btn.textContent = 'Ingresar';
     } else {
+      document.getElementById('login-pass').value = '';
       showDash();
     }
   }
 
   async function doLogout() {
-    await sb.auth.signOut();
+    try { await sb.auth.signOut(); } catch {}
+    // signOut puede no limpiar si falla la red: borrar igual de los dos storages
+    for (const suffix of ['', '-user', '-code-verifier']) authStorage.removeItem(AUTH_KEY + suffix);
     document.getElementById('page-dash').style.display = 'none';
     document.getElementById('page-login').style.display = 'flex';
     document.getElementById('login-pass').value = '';
@@ -220,7 +259,7 @@
     el.innerHTML = members.map((m, i) => {
       const initials = m.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
       const avatar = m.avatar_url
-        ? `<img src="${m.avatar_url}" alt="${m.name}"/>`
+        ? `<img src="${esc(m.avatar_url)}" alt="${esc(m.name)}"/>`
         : initials;
       const date = new Date(m.created_at).toLocaleDateString('es-AR', {
         day:'2-digit', month:'short', year:'numeric'
@@ -247,7 +286,8 @@
   }
 
   function esc(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+              .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
   // Restaurar sesión si ya estaba logueado
